@@ -1,9 +1,9 @@
+import { useState } from 'react'
 import { Icon, ListItemButton, ListItemText } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 
 import { StyledListItem } from './styles'
-import { useState } from 'react'
 
 const currentUserRole = 'admin'
 

@@ -8,7 +8,10 @@ export default function LoginPage() {
       <Typography variant="h3">Login</Typography>
       <LoginForm />
       <Typography paragraph>
-        Not a user? <Link style={{ textDecoration: 'none' }}>Sign up</Link>
+        Not a user?{' '}
+        <Link to="/sign-up" style={{ textDecoration: 'none' }}>
+          Sign up
+        </Link>
       </Typography>
     </>
   )

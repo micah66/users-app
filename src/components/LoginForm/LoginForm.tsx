@@ -14,12 +14,8 @@ export default function LoginForm() {
 
   return (
     <StyledForm onSubmit={onSubmit}>
-      <TextField
-        type="text"
-        placeholder="Enter username"
-        {...register('username')}
-      />
-      <TextField type="text" placeholder="Enter email" {...register('email')} />
+      <TextField type="text" placeholder="Username" {...register('username')} />
+      <TextField type="text" placeholder="Email" {...register('email')} />
       <Button
         type="submit"
         variant="contained"

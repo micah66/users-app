@@ -2,6 +2,7 @@ import { Outlet, Router, Route, RootRoute } from '@tanstack/router'
 
 import UsersPage from './pages/UsersPage'
 import LoginPage from './pages/LoginPage'
+import SignUpPage from './pages/SignUpPage'
 
 const rootRoute = new RootRoute({
   component: () => <Outlet />,
@@ -19,7 +20,13 @@ const loginRoute = new Route({
   component: LoginPage,
 })
 
-const routeTree = rootRoute.addChildren([indexRoute, loginRoute])
+const signUpRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: '/sign-up',
+  component: SignUpPage,
+})
+
+const routeTree = rootRoute.addChildren([indexRoute, loginRoute, signUpRoute])
 
 const router = new Router({ routeTree })
 

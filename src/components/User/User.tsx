@@ -9,7 +9,10 @@ const currentUserRole = 'admin'
 
 export type TUser = {
   id: string
+  firstName: string
+  lastName: string
   username: string
+  email: string
   role: 'admin' | 'user'
 }
 

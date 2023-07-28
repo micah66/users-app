@@ -1,25 +1,9 @@
 import { List } from '@mui/material'
 import User, { TUser } from '../User/User'
+import { useLocalStorage } from '../../utils/hooks/useStorage'
 
 export default function UserList() {
-  const users: TUser[] = [
-    {
-      id: '1',
-      firstName: 'User',
-      lastName: 'One',
-      username: 'user1',
-      email: 'userone@mail.com',
-      role: 'user',
-    },
-    {
-      id: '2',
-      firstName: 'User',
-      lastName: 'Two',
-      username: 'user2',
-      email: 'usertwo@gmail.com',
-      role: 'admin',
-    },
-  ]
+  const [users] = useLocalStorage<TUser[]>({ key: 'users' })
   return (
     <List>
       {users.map((user) => (

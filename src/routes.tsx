@@ -1,5 +1,7 @@
 import { Outlet, Router, Route, RootRoute } from '@tanstack/router'
-import UserList from './components/UserList/UserList'
+
+import UsersPage from './pages/UsersPage'
+import LoginPage from './pages/LoginPage'
 
 const rootRoute = new RootRoute({
   component: () => <Outlet />,
@@ -8,10 +10,16 @@ const rootRoute = new RootRoute({
 const indexRoute = new Route({
   getParentRoute: () => rootRoute,
   path: '/',
-  component: UserList,
+  component: UsersPage,
 })
 
-const routeTree = rootRoute.addChildren([indexRoute])
+const loginRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: '/login',
+  component: LoginPage,
+})
+
+const routeTree = rootRoute.addChildren([indexRoute, loginRoute])
 
 const router = new Router({ routeTree })
 

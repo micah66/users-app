@@ -1,4 +1,4 @@
-import { Typography, List } from '@mui/material'
+import { List } from '@mui/material'
 import User, { TUser } from '../User/User'
 
 export default function UserList() {
@@ -15,18 +15,15 @@ export default function UserList() {
     },
   ]
   return (
-    <>
-      <Typography variant="h3">Users</Typography>
-      <List>
-        {users.map((user) => (
-          <User
-            key={user.id}
-            username={user.username}
-            handleDelete={() => {}}
-            handleEdit={() => {}}
-          />
-        ))}
-      </List>
-    </>
+    <List>
+      {users.map((user) => (
+        <User
+          key={user.id}
+          username={user.username}
+          handleDelete={() => {}}
+          handleEdit={() => {}}
+        />
+      ))}
+    </List>
   )
 }

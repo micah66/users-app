@@ -3,6 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 
 import { StyledListItem } from './styles'
+import { useState } from 'react'
 
 const currentUserRole = 'admin'
 
@@ -23,17 +24,28 @@ export default function User({
   handleDelete,
   handleEdit,
 }: UserDetails & UserActions) {
+  const [hovering, setHovering] = useState<boolean>(false)
+
   return (
-    <StyledListItem>
+    <StyledListItem
+      onMouseEnter={() => setHovering(true)}
+      onMouseLeave={() => setHovering(false)}
+    >
       <ListItemText primary={username} />
-      {currentUserRole === 'admin' && (
+      {currentUserRole === 'admin' && hovering && (
         <>
-          <ListItemButton onClick={handleEdit}>
+          <ListItemButton
+            onClick={handleEdit}
+            sx={{ padding: 0, paddingLeft: '16px' }}
+          >
             <Icon>
               <EditIcon />
             </Icon>
           </ListItemButton>
-          <ListItemButton onClick={handleDelete}>
+          <ListItemButton
+            onClick={handleDelete}
+            sx={{ padding: 0, paddingLeft: '16px' }}
+          >
             <Icon>
               <DeleteIcon />
             </Icon>

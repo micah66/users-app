@@ -1,15 +1,22 @@
-import { TextField, Button, MenuItem } from '@mui/material'
+import { TextField, Button, MenuItem, Box } from '@mui/material'
 import { useForm } from 'react-hook-form'
 
-import { StyledForm } from './styles'
+import { StyledForm } from '../SignUpForm/styles'
 import { TUser } from '../User/User'
 import { useLocalStorage } from '../../utils/hooks/useStorage'
-import router from '../../routes'
 
 type FormValues = TUser
 
-export default function SignUpForm() {
-  const [users, setUsers] = useLocalStorage<TUser[]>({
+export default function EditUserForm({
+  user,
+  onSave,
+  onCancel,
+}: {
+  user: TUser
+  onSave: () => void
+  onCancel: () => void
+}) {
+  const [, setUsers] = useLocalStorage<TUser[]>({
     key: 'users',
     initValue: [],
   })
@@ -19,27 +26,15 @@ export default function SignUpForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>({
-    defaultValues: {
-      id: Date.now().toString(),
-      firstName: '',
-      lastName: '',
-      username: '',
-      email: '',
-      role: 'user',
-    },
+    defaultValues: user,
   })
 
   const onSubmit = handleSubmit(async (data: TUser) => {
-    const existingUser = users.find(
-      (user) => user.username === data.username || user.email === data.email,
+    await setUsers((prevUsers) =>
+      prevUsers.map((user) => (user.id === data.id ? data : user)),
     )
-    if (existingUser) {
-      //TODO: indicator error for existing user
-      return
-    }
-    await setUsers((prevUsers) => [...prevUsers, data])
 
-    router.navigate({ to: '/' })
+    onSave()
   })
 
   return (
@@ -82,24 +77,31 @@ export default function SignUpForm() {
         {...register('role', { required: 'Role is required' })}
         error={!!errors.role}
         helperText={errors.role?.message}
-        defaultValue=""
-        SelectProps={{
-          displayEmpty: true,
-        }}
+        defaultValue={user?.role}
         sx={{ textAlign: 'start' }}
       >
-        <MenuItem value="">Role</MenuItem>
         <MenuItem value="admin">Admin</MenuItem>
         <MenuItem value="user">User</MenuItem>
       </TextField>
-      <Button
-        type="submit"
-        variant="contained"
-        size="large"
-        sx={{ textTransform: 'unset' }}
-      >
-        Sign Up
-      </Button>
+      <Box sx={{ display: 'flex', gap: '24px' }}>
+        <Button
+          onClick={onCancel}
+          variant="contained"
+          size="large"
+          color="inherit"
+          sx={{ textTransform: 'unset' }}
+        >
+          Cancel
+        </Button>
+        <Button
+          type="submit"
+          variant="contained"
+          size="large"
+          sx={{ textTransform: 'unset' }}
+        >
+          Save
+        </Button>
+      </Box>
     </StyledForm>
   )
 }

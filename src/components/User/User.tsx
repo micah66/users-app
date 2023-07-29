@@ -16,7 +16,7 @@ export type TUser = {
   role: 'admin' | 'user'
 }
 
-type UserDetails = Pick<TUser, 'username'>
+type UserDetails = Pick<TUser, 'username' | 'role'>
 type UserActions = {
   handleDelete: () => void
   handleEdit: () => void
@@ -24,6 +24,7 @@ type UserActions = {
 
 export default function User({
   username,
+  role,
   handleDelete,
   handleEdit,
 }: UserDetails & UserActions) {
@@ -35,6 +36,7 @@ export default function User({
       onMouseLeave={() => setHovering(false)}
     >
       <ListItemText primary={username} />
+      <ListItemText primary={role} />
       {currentUserRole === 'admin' && hovering && (
         <>
           <ListItemButton

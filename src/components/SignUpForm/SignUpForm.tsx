@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { TextField, Button, MenuItem } from '@mui/material'
 import { useForm } from 'react-hook-form'
 
@@ -5,6 +6,7 @@ import { StyledForm } from './styles'
 import { TUser } from '../User/User'
 import { useLocalStorage } from '../../utils/hooks/useStorage'
 import router from '../../routes'
+import ErrorMessage from '../common/ErrorMessage/ErrorMessage'
 
 type FormValues = TUser
 
@@ -16,6 +18,7 @@ export default function SignUpForm() {
 
   const [, setActiveUser] = useLocalStorage<TUser>({ key: 'activeUser' })
 
+  const [error, setError] = useState<string | null>(null)
   const {
     register,
     handleSubmit,
@@ -36,9 +39,11 @@ export default function SignUpForm() {
       (user) => user.username === data.username || user.email === data.email,
     )
     if (existingUser) {
-      //TODO: indicator error for existing user
+      setError('User already exists. Try another username/email')
+
       return
     }
+
     setUsers((prevUsers) => [...prevUsers, data])
 
     setActiveUser(data)
@@ -95,6 +100,7 @@ export default function SignUpForm() {
         <MenuItem value="admin">Admin</MenuItem>
         <MenuItem value="user">User</MenuItem>
       </TextField>
+      {error && <ErrorMessage message={error!} />}
       <Button
         type="submit"
         variant="contained"

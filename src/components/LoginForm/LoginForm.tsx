@@ -26,7 +26,7 @@ export default function LoginForm() {
     }
 
     await setActiveUser(user)
-    router.navigate({ to: '/' })
+    router.navigate({ to: '/users' })
   })
 
   return (

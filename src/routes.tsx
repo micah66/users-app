@@ -3,6 +3,7 @@ import { Outlet, Router, Route, RootRoute, redirect } from '@tanstack/router'
 import UsersPage from './pages/UsersPage'
 import LoginPage from './pages/LoginPage'
 import SignUpPage from './pages/SignUpPage'
+import Header from './components/Header/Header'
 
 const isAuthenticated = () => {
   const activeUser = window.localStorage.getItem('activeUser')
@@ -16,7 +17,12 @@ const rootRoute = new RootRoute({
 const indexRoute = new Route({
   getParentRoute: () => rootRoute,
   path: '/',
-  component: UsersPage,
+  component: () => (
+    <>
+      <Header />
+      <Outlet />
+    </>
+  ),
   beforeLoad: () => {
     if (!isAuthenticated()) {
       throw redirect({
@@ -26,6 +32,12 @@ const indexRoute = new Route({
   },
 })
 
+const usersRoute = new Route({
+  getParentRoute: () => indexRoute,
+  path: '/users',
+  component: UsersPage,
+})
+
 const loginRoute = new Route({
   getParentRoute: () => rootRoute,
   path: '/login',
@@ -33,7 +45,7 @@ const loginRoute = new Route({
   beforeLoad: () => {
     if (isAuthenticated()) {
       throw redirect({
-        to: indexRoute.to,
+        to: usersRoute.to,
       })
     }
   },
@@ -46,13 +58,17 @@ const signUpRoute = new Route({
   beforeLoad: () => {
     if (isAuthenticated()) {
       throw redirect({
-        to: indexRoute.to,
+        to: usersRoute.to,
       })
     }
   },
 })
 
-const routeTree = rootRoute.addChildren([indexRoute, loginRoute, signUpRoute])
+const routeTree = rootRoute.addChildren([
+  indexRoute.addChildren([usersRoute]),
+  loginRoute,
+  signUpRoute,
+])
 
 const router = new Router({ routeTree })
 

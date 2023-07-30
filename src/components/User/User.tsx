@@ -30,6 +30,9 @@ export default function User({
   const [hovering, setHovering] = useState<boolean>(false)
   const [activeUser] = useLocalStorage<TUser>({ key: 'activeUser' })
 
+  const isActiveUser = () => activeUser.username === username
+  const checkPermissions = () => isActiveUser() || activeUser.role === 'admin'
+
   return (
     <StyledListItem
       onMouseEnter={() => setHovering(true)}
@@ -37,7 +40,7 @@ export default function User({
     >
       <ListItemText primary={username} />
       <ListItemText primary={role} />
-      {activeUser.role === 'admin' && hovering && (
+      {checkPermissions() && hovering && (
         <>
           <ListItemButton
             onClick={handleEdit}
@@ -50,6 +53,7 @@ export default function User({
           <ListItemButton
             onClick={handleDelete}
             sx={{ padding: 0, paddingLeft: '16px' }}
+            disabled={isActiveUser()}
           >
             <Icon>
               <DeleteIcon />

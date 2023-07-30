@@ -14,6 +14,8 @@ export default function SignUpForm() {
     initValue: [],
   })
 
+  const [, setActiveUser] = useLocalStorage<TUser>({ key: 'activeUser' })
+
   const {
     register,
     handleSubmit,
@@ -29,7 +31,7 @@ export default function SignUpForm() {
     },
   })
 
-  const onSubmit = handleSubmit(async (data: TUser) => {
+  const onSubmit = handleSubmit((data: TUser) => {
     const existingUser = users.find(
       (user) => user.username === data.username || user.email === data.email,
     )
@@ -37,9 +39,10 @@ export default function SignUpForm() {
       //TODO: indicator error for existing user
       return
     }
-    await setUsers((prevUsers) => [...prevUsers, data])
+    setUsers((prevUsers) => [...prevUsers, data])
 
-    router.navigate({ to: '/' })
+    setActiveUser(data)
+    router.navigate({ to: '/users' })
   })
 
   return (

@@ -4,8 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 
 import { StyledListItem } from './styles'
-
-const currentUserRole = 'admin'
+import { useLocalStorage } from '../../utils/hooks/useStorage'
 
 export type TUser = {
   id: string
@@ -29,6 +28,7 @@ export default function User({
   handleEdit,
 }: UserDetails & UserActions) {
   const [hovering, setHovering] = useState<boolean>(false)
+  const [activeUser] = useLocalStorage<TUser>({ key: 'activeUser' })
 
   return (
     <StyledListItem
@@ -37,7 +37,7 @@ export default function User({
     >
       <ListItemText primary={username} />
       <ListItemText primary={role} />
-      {currentUserRole === 'admin' && hovering && (
+      {activeUser.role === 'admin' && hovering && (
         <>
           <ListItemButton
             onClick={handleEdit}

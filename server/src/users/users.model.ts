@@ -3,7 +3,7 @@ import * as z from 'zod'
 
 import { db } from '../db'
 
-const User = z.object({
+export const User = z.object({
   username: z.string(),
   password: z.string(),
 })

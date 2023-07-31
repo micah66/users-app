@@ -7,6 +7,7 @@ const port: number = 5000
 const router = Router()
 
 router.use('/users', users)
+app.use(express.json())
 
 app.get('/', (_req: Request, res: Response) => {
   res.status(200).send('Working')

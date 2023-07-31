@@ -12,7 +12,7 @@ export const authorize: RequestHandler = async (req, res, next) => {
     const { id } = jwt.decode(token) as JwtPayload
     const user = await Users.findOne({ _id: new ObjectId(id) })
     if (!(user && user.role === 'admin')) {
-      res.sendStatus(401)
+      return res.sendStatus(401)
     }
   } catch (e) {
     return res.sendStatus(401)

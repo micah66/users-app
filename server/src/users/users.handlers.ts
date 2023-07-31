@@ -17,6 +17,7 @@ export const getById = async (
 ) => {
   const result = await Users.findOne({ _id: new ObjectId(req.params.id) })
   if (!result) {
+    res.status(404)
     throw new Error(`User with id ${req.params.id} does not exist`)
   }
   res.json(result)
@@ -29,7 +30,7 @@ export const createOne: RequestHandler = async (
   try {
     const validRequest = await User.parse(req.body)
     const result = await Users.insertOne(validRequest)
-    res.json(result)
+    res.status(201).json(result)
   } catch (e) {
     console.error(e)
   }
@@ -48,10 +49,28 @@ export const updateOne = async (
     )
 
     if (!result.value) {
+      res.status(404)
       throw new Error(`User with id ${req.params.id} does not exist`)
     }
 
     res.json(result.value)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const deleteOne = async (req: Request<ParamsWithId>, res: Response) => {
+  try {
+    const result = await Users.findOneAndDelete({
+      _id: new ObjectId(req.params.id),
+    })
+
+    if (!result.value) {
+      res.status(404)
+      throw new Error(`User with id ${req.params.id} does not exist`)
+    }
+
+    res.sendStatus(204)
   } catch (e) {
     console.error(e)
   }

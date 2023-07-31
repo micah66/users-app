@@ -7,5 +7,6 @@ router.get('/', UsersHandlers.getAll)
 router.get('/:id', UsersHandlers.getById)
 router.post('/', UsersHandlers.createOne)
 router.put('/:id', UsersHandlers.updateOne)
+router.delete('/:id', UsersHandlers.deleteOne)
 
 export default router

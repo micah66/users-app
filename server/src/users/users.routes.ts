@@ -1,10 +1,8 @@
-import { Router, Response } from 'express'
-import { User } from './users.model'
+import { Router } from 'express'
+import * as UsersHandlers from './users.handlers'
 
 const router = Router()
 
-router.get('/', (req, res: Response<User[]>) => {
-  res.json([])
-})
+router.get('/', UsersHandlers.getAll)
 
 export default router

@@ -1,4 +1,7 @@
+import { WithId } from 'mongodb'
 import * as z from 'zod'
+
+import { db } from '../db'
 
 const User = z.object({
   username: z.string(),
@@ -6,3 +9,5 @@ const User = z.object({
 })
 
 export type User = z.infer<typeof User>
+export type UserWithId = WithId<User>
+export const Users = db.collection<User>('users')

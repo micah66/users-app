@@ -12,6 +12,6 @@ app.get('/', (_req: Request, res: Response) => {
   res.status(200).send('Working')
 })
 
-app.use('/', router)
+app.use('/api/v1/', router)
 
 app.listen(port, () => console.log(`listening on port ${port}...`))

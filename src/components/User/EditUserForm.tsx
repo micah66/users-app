@@ -2,7 +2,7 @@ import { TextField, Button, MenuItem, Box } from '@mui/material'
 import { useForm } from 'react-hook-form'
 
 import { StyledForm } from '../SignUpForm/styles'
-import { TUser } from '../User/User'
+import { TUser } from './User'
 import { useLocalStorage } from '../../utils/hooks/useStorage'
 
 type FormValues = TUser
